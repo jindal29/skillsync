@@ -1,0 +1,37 @@
+const mongoose = require('mongoose');
+
+const eventSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: Date,
+        required: true,
+    },
+    type: {
+        type: String,
+        enum: ['Webinar', 'Workshop', 'Meetup', 'Conference'],
+        default: 'Webinar',
+    },
+    organizer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    attendees: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    link: {
+        type: String, // e.g., Zoom link
+    },
+}, {
+    timestamps: true,
+});
+
+module.exports = mongoose.model('Event', eventSchema);
